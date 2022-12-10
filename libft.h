@@ -6,13 +6,16 @@
 /*   By: mgaldino <mgaldino@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/21 17:06:47 by mgaldino          #+#    #+#             */
-/*   Updated: 2022/04/29 00:56:27 by mgaldino         ###   ########.fr       */
+/*   Updated: 2022/06/22 16:10:28 by mgaldino         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# include <stddef.h>
+# include <limits.h>
 # include <stdlib.h>
+# include <unistd.h>
 
 typedef struct s_list
 {
@@ -67,5 +70,47 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *));
 void	ft_lstclear(t_list **lst, void (*del)(void *));
 void	ft_lstiter(t_list *lst, void (*f)(void *));
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+
+//begin get_next_line()
+# ifndef OPEN_MAX
+#  define OPEN_MAX 1024
+# endif
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 100
+# endif
+
+char	*get_next_line(int fd);
+int		ft_char_in_buffer(char c, char *buf);
+char	*ft_accumulate_buffer(char *acc, char *buf, int bytes_read);
+char	*ft_extract_remainder_bytes_from_line(char *acc);
+int		ft_initialize_and_get_line(int fd, char *buf, char **acc);
+//end get_next_line()
+
+//begin ft_printf
+# define MY_IDENTIFIERS "cspdiuxX%"
+# define NUMBER_IDENTIFIERS "cpdiuxX%"
+# define FLAGS "-0.# +"
+# define PREFIXS "# +"
+
+typedef struct s_specs
+{
+	int				min_width;
+	unsigned int	precision;
+	int				l_justif;
+	char			prefix;
+	char			identifier;
+}	t_specs;
+
+int		ft_printf(const char *format, ...);
+void	ft_putchar_printf(char c, int *bytes_written);
+void	ft_putstr_printf(char *str, int *bytes_written, int precision);
+char	*ft_uitoa(unsigned long long int n, char identif);
+int		ft_char_in_string(char c, char *s);
+char	*ft_get_param(const char *format, int *start);
+t_specs	*ft_get_specs(char *param);
+void	ft_process_prefix(char *aux, int *bytes_written, t_specs *specs);
+char	*ft_aux_with_prec(char *aux, t_specs *specs);
+//end ft_printf
 
 #endif

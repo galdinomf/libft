@@ -39,8 +39,6 @@ char	*ft_strdup(char *src)
 {
 	char	*dest;
 
-	if (!src)
-		return (NULL);
 	dest = (char *) malloc((ft_strlen(src) + 1) * sizeof(char));
 	if (dest != NULL)
 		ft_strcpy(dest, src);
